@@ -1,0 +1,79 @@
+> <SOS> k e m p t h o r n e <EOS>
+= <SOS> K EH M P TH AO R N <EOS>
+< <SOS> K EH M P TH ER N ER <EOS>
+
+> <SOS> p e l a g r e e n y <EOS>
+= <SOS> P EH L AH G R IY N IY <EOS>
+< <SOS> P EH L AH G R IY N N IY <EOS>
+
+> <SOS> m i s s p e a k <EOS>
+= <SOS> M IH S S P IY K <EOS>
+< <SOS> M IH S P EH P K <EOS>
+
+> <SOS> s t a l d e r <EOS>
+= <SOS> S T AO L D ER <EOS>
+< <SOS> S T AE L D ER <EOS>
+
+> <SOS> t s i a n g <EOS>
+= <SOS> T S Y AE NG <EOS>
+< <SOS> T AY Z AE NG <EOS>
+
+> <SOS> y e h <EOS>
+= <SOS> Y EH <EOS>
+< <SOS> Y EH <EOS>
+
+> <SOS> c r u m b l e y <EOS>
+= <SOS> K R AH M B L IY <EOS>
+< <SOS> K R AH M L IY <EOS>
+
+> <SOS> e m o t i o n a l l y <EOS>
+= <SOS> IH M OW SH N AH L IY <EOS>
+< <SOS> IH M AH T AH N AH L IY <EOS>
+
+> <SOS> a s i c <EOS>
+= <SOS> AE Z IH K <EOS>
+< <SOS> AE S IH CH <EOS>
+
+> <SOS> i n t e r o p e r a t e <EOS>
+= <SOS> IH N T ER AO P ER AH T <EOS>
+< <SOS> IH N T ER AA P ER T <EOS>
+
+> <SOS> h a y m a k e r s <EOS>
+= <SOS> HH EY M EY K ER Z <EOS>
+< <SOS> HH EY M ER AA R Z <EOS>
+
+> <SOS> a t h e n s <EOS>
+= <SOS> AE TH AH N Z <EOS>
+< <SOS> AE TH AH N Z <EOS>
+
+> <SOS> s w i s h e d <EOS>
+= <SOS> S W IH SH T <EOS>
+< <SOS> S W IH SH <EOS>
+
+> <SOS> s a u l t e r s <EOS>
+= <SOS> S AW L T ER Z <EOS>
+< <SOS> S AO L T ER Z <EOS>
+
+> <SOS> l a y e <EOS>
+= <SOS> L EY <EOS>
+< <SOS> L EY <EOS>
+
+> <SOS> s h o w e d <EOS>
+= <SOS> SH OW D <EOS>
+< <SOS> SH OW D <EOS>
+
+> <SOS> n o v o a <EOS>
+= <SOS> N OW V OW AH <EOS>
+< <SOS> N OW V OW <EOS>
+
+> <SOS> f r i e d e r <EOS>
+= <SOS> F R AY D ER <EOS>
+< <SOS> F R AY D ER <EOS>
+
+> <SOS> h e c h t <EOS>
+= <SOS> HH EH K T <EOS>
+< <SOS> HH EH CH <EOS>
+
+> <SOS> w y d r a <EOS>
+= <SOS> W AY D R AH <EOS>
+< <SOS> W IH D R AH <EOS>
