@@ -1,10 +1,12 @@
+import time
+import math
+import random
+
 import torch
 from torch import nn, optim
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-import time
-import math
-import random
+import fire
 
 from phonemicizer.data import (
     SOS_token,
@@ -23,7 +25,6 @@ from phonemicizer.model import Encoder, Decoder, HIDDEN_SIZE
 # sequences. This model does translation from English character sequences
 # to phonetic character sequences.
 
-plt.switch_backend('agg')
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -117,6 +118,7 @@ def showPlot(points):
     loc = ticker.MultipleLocator(base=0.2)
     ax.yaxis.set_major_locator(loc)
     plt.plot(points)
+    plt.savefig("loss-curve.png")
 
 
 def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, learning_rate=0.01):
@@ -155,13 +157,17 @@ def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, lear
     showPlot(plot_losses)
 
 
-if __name__ == "__main__":
+def main(n_iters, print_every=1000, plot_every=100, learning_rate=0.01):
+    print(f"Training for {n_iters} iterations...")
     encoder = Encoder(alphabet.n_letters, HIDDEN_SIZE).to(device)
     decoder = Decoder(HIDDEN_SIZE, phonemes.n_letters, dropout_p=0.1).to(device)
-
-    trainIters(encoder, decoder, 100000, print_every=200)
+    trainIters(encoder, decoder, n_iters, print_every, plot_every, learning_rate)
 
     print("Training finished. Saving models...")
 
     torch.save(encoder.state_dict(), "encoder_state.pt")
     torch.save(decoder.state_dict(), "decoder_state.pt")
+
+
+if __name__ == "__main__":
+    fire.Fire(main)

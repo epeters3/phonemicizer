@@ -1,6 +1,7 @@
 import random
 
 import torch
+import fire
 
 from phonemicizer.data import (
     SOS_token, EOS_token, alphabet, phonemes, pairs, MAX_LENGTH, indices_to_tensor
@@ -57,7 +58,7 @@ def evaluate(encoder, decoder, index_sequence, max_length=MAX_LENGTH):
         return decoded_words, decoder_attentions[:di + 1]
 
 
-if __name__ == "__main__":
+def main(n=10):
     encoder = Encoder(alphabet.n_letters, HIDDEN_SIZE).to(device)
     encoder.load_state_dict(torch.load("encoder_state.pt"))
     encoder.eval()
@@ -65,4 +66,9 @@ if __name__ == "__main__":
     decoder = Decoder(HIDDEN_SIZE, phonemes.n_letters, dropout_p=0.1).to(device)
     decoder.load_state_dict(torch.load("decoder_state.pt"))
     decoder.eval()
-    evaluateRandomly(encoder, decoder)
+    
+    evaluateRandomly(encoder, decoder, n)
+
+
+if __name__ == "__main__":
+    fire.Fire(main)
