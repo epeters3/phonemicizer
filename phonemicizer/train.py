@@ -15,7 +15,7 @@ from phonemicizer.data import (
     phonemes,
     pairs,
     MAX_LENGTH,
-    pair_to_tensors
+    pair_to_tensors,
 )
 from phonemicizer.model import Encoder, Decoder, HIDDEN_SIZE
 
@@ -32,7 +32,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 def asMinutes(s):
     m = math.floor(s / 60)
     s -= m * 60
-    return '%dm %ds' % (m, s)
+    return "%dm %ds" % (m, s)
 
 
 def timeSince(since, percent):
@@ -40,10 +40,7 @@ def timeSince(since, percent):
     s = now - since
     es = s / (percent)
     rs = es - s
-    return '%s (- %s)' % (asMinutes(s), asMinutes(rs))
-
-
-teacher_forcing_ratio = 0.5
+    return "%s (- %s)" % (asMinutes(s), asMinutes(rs))
 
 
 def train(
@@ -54,7 +51,8 @@ def train(
     encoder_optimizer,
     decoder_optimizer,
     criterion,
-    max_length=MAX_LENGTH,
+    max_length,
+    teacher_forcing_ratio,
 ):
     """
     Train a single data instance
@@ -121,16 +119,30 @@ def showPlot(points):
     plt.savefig("loss-curve.png")
 
 
-def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, learning_rate=0.01):
+def train_iters(
+    encoder,
+    decoder,
+    n_iters: int,
+    *,
+    max_length: int,
+    teacher_forcing_ratio: float,
+    print_every: int,
+    plot_every: int,
+    learning_rate: float,
+    weight_decay: float,
+):
     start = time.time()
     plot_losses = []
     print_loss_total = 0  # Reset every print_every
     plot_loss_total = 0  # Reset every plot_every
 
-    encoder_optimizer = optim.SGD(encoder.parameters(), lr=learning_rate)
-    decoder_optimizer = optim.SGD(decoder.parameters(), lr=learning_rate)
-    training_pairs = [pair_to_tensors(random.choice(pairs))
-                      for i in range(n_iters)]
+    encoder_optimizer = optim.Adam(
+        encoder.parameters(), lr=learning_rate, weight_decay=weight_decay
+    )
+    decoder_optimizer = optim.Adam(
+        decoder.parameters(), lr=learning_rate, weight_decay=weight_decay
+    )
+    training_pairs = [pair_to_tensors(random.choice(pairs)) for i in range(n_iters)]
     criterion = nn.NLLLoss()
 
     for iter in range(1, n_iters + 1):
@@ -138,16 +150,32 @@ def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, lear
         input_tensor = training_pair[0]
         target_tensor = training_pair[1]
 
-        loss = train(input_tensor, target_tensor, encoder,
-                     decoder, encoder_optimizer, decoder_optimizer, criterion)
+        loss = train(
+            input_tensor,
+            target_tensor,
+            encoder,
+            decoder,
+            encoder_optimizer,
+            decoder_optimizer,
+            criterion,
+            max_length,
+            teacher_forcing_ratio,
+        )
         print_loss_total += loss
         plot_loss_total += loss
 
         if iter % print_every == 0:
             print_loss_avg = print_loss_total / print_every
             print_loss_total = 0
-            print('%s (%d %d%%) %.4f' % (timeSince(start, iter / n_iters),
-                                         iter, iter / n_iters * 100, print_loss_avg))
+            print(
+                "%s (%d %d%%) %.4f"
+                % (
+                    timeSince(start, iter / n_iters),
+                    iter,
+                    iter / n_iters * 100,
+                    print_loss_avg,
+                )
+            )
 
         if iter % plot_every == 0:
             plot_loss_avg = plot_loss_total / plot_every
@@ -157,11 +185,30 @@ def trainIters(encoder, decoder, n_iters, print_every=1000, plot_every=100, lear
     showPlot(plot_losses)
 
 
-def main(n_iters, print_every=1000, plot_every=100, learning_rate=0.01):
+def main(
+    n_iters,
+    print_every: int = 1000,
+    plot_every: int = 100,
+    learning_rate: float = 0.001,
+    # L2 weight decay
+    weight_decay: float = 0.0,
+    teacher_forcing_ratio: float = 0.5,
+    dropout_p: float = 0.1,
+):
     print(f"Training for {n_iters} iterations...")
     encoder = Encoder(alphabet.n_letters, HIDDEN_SIZE).to(device)
-    decoder = Decoder(HIDDEN_SIZE, phonemes.n_letters, dropout_p=0.1).to(device)
-    trainIters(encoder, decoder, n_iters, print_every, plot_every, learning_rate)
+    decoder = Decoder(HIDDEN_SIZE, phonemes.n_letters, dropout_p=dropout_p).to(device)
+    train_iters(
+        encoder,
+        decoder,
+        n_iters,
+        print_every=print_every,
+        plot_every=plot_every,
+        learning_rate=learning_rate,
+        max_length=MAX_LENGTH,
+        teacher_forcing_ratio=teacher_forcing_ratio,
+        weight_decay=weight_decay,
+    )
 
     print("Training finished. Saving models...")
 
