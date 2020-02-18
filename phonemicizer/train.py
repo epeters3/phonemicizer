@@ -189,7 +189,7 @@ def main(
     n_iters,
     print_every: int = 1000,
     plot_every: int = 100,
-    learning_rate: float = 0.001,
+    learning_rate: float = 0.0001,
     # L2 weight decay
     weight_decay: float = 0.0,
     teacher_forcing_ratio: float = 0.5,

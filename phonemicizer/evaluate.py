@@ -102,7 +102,7 @@ def main(n=10):
     decoder = Decoder(HIDDEN_SIZE, phonemes.n_letters, dropout_p=0.1).to(device)
     decoder.load_state_dict(torch.load("decoder_state.pt"))
     decoder.eval()
-    
+
     evaluateRandomly(encoder, decoder, n)
 
 
