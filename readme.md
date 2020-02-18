@@ -39,4 +39,4 @@ python3 -m phonemicizer.train \
     [--lr_patience 5] \
 ```
 
-With the current parameters (single GRU layer in the encoder and an attention and GRU layer in the decoder, with a hidden size of 256 for all layers), the model begins to become unstable during training at around 80,000 training iterations, at which point the loss goes back up. Current model accuracy is about 89.6%.
+With the current parameters (single GRU layer in the encoder and an attention and GRU layer in the decoder, with a hidden size of 256 for all layers), the model begins to become unstable during training at around 80,000 training iterations, at which point the loss goes back up. Current model accuracy is about 90%%.
