@@ -13,7 +13,7 @@ from phonemicizer.data import (
     EOS_token,
     alphabet,
     phonemes,
-    pairs,
+    train_pairs,
     MAX_LENGTH,
     pair_to_tensors,
 )
@@ -150,7 +150,9 @@ def train_iters(
         decoder_optimizer, patience=lr_patience
     )
 
-    training_pairs = [pair_to_tensors(random.choice(pairs)) for i in range(n_iters)]
+    training_pairs = [
+        pair_to_tensors(random.choice(train_pairs)) for i in range(n_iters)
+    ]
     criterion = nn.NLLLoss()
 
     for iter in range(1, n_iters + 1):

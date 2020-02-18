@@ -8,7 +8,7 @@ import textdistance
 from phonemicizer.data import (
     alphabet,
     phonemes,
-    pairs,
+    val_pairs,
 )
 from phonemicizer.predict import TrainedPhonemicizer
 
@@ -37,7 +37,7 @@ KEY:
     )
     similarities = 0.0
     for i in range(n):
-        source_indices, target_indices = random.choice(pairs)
+        source_indices, target_indices = random.choice(val_pairs)
         source = alphabet.indices_to_word(source_indices)
         target = phonemes.indices_to_word(target_indices)
         print(">", source)

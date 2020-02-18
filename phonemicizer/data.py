@@ -1,3 +1,6 @@
+import math
+import random
+
 import torch
 
 
@@ -39,8 +42,9 @@ phonemes = Lang("arpabet.txt")
 
 
 def load_dataset() -> list:
-    train_data = []
+    data = []
     max_input_seq_length = 0
+
     with open("cmu_pron_dict_dataset.txt", "r") as f:
         for line in f:
             word, phonetic_spelling = line.replace("\n", "").split("\t")
@@ -49,11 +53,17 @@ def load_dataset() -> list:
             if len(alphabet_word_indices) > max_input_seq_length:
                 max_input_seq_length = len(alphabet_word_indices)
             phons_word_indices = phonemes.word_to_indices(phonetic_spelling)
-            train_data.append((alphabet_word_indices, phons_word_indices,))
-    return train_data, max_input_seq_length
+            data.append((alphabet_word_indices, phons_word_indices,))
+
+    # Make an 80/20 train/validation split.
+    n = len(data)
+    n_train = math.floor(n * 0.8)
+    train_data = data[:n_train]
+    val_data = data[n_train:]
+    return train_data, val_data, max_input_seq_length
 
 
-pairs, MAX_LENGTH = load_dataset()
+train_pairs, val_pairs, MAX_LENGTH = load_dataset()
 
 
 def indices_to_tensor(indices: list):
