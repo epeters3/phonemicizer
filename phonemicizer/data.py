@@ -49,18 +49,11 @@ def load_dataset() -> list:
             if len(alphabet_word_indices) > max_input_seq_length:
                 max_input_seq_length = len(alphabet_word_indices)
             phons_word_indices = phonemes.word_to_indices(phonetic_spelling)
-            train_data.append(
-                (
-                    alphabet_word_indices,
-                    phons_word_indices,
-                )
-            )
+            train_data.append((alphabet_word_indices, phons_word_indices,))
     return train_data, max_input_seq_length
 
 
 pairs, MAX_LENGTH = load_dataset()
-print(f"Training set size={len(pairs)}")
-print(f"MAX_LENGTH={MAX_LENGTH}")
 
 
 def indices_to_tensor(indices: list):

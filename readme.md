@@ -14,9 +14,30 @@ cd phonemicizer
 pip3 install -r requirements.txt
 ```
 
+## Predicting
+
+To use the current best model saved in the repo to predict phonetic representations, there is a CLI and Python API.
+
+### Using the CLI
+
+```shell
+$ python3 -m phonemicizer.predict -i "Interesting."
+N T ER AH S T IH NG
+```
+
+### Using the Python API
+
+```python
+from phonemicizer import TrainedPhonemicizer
+
+model = TrainedPhonemicizer()
+model.predict("Interesting.")
+# N T ER AH S T IH NG
+```
+
 ## Evaluation
 
-To evaluate the trained model on some samples:
+To assess model performance by evaluating the trained model on some samples:
 
 ```shell
 python3 -m phonemicizer.evaluate [--n <number_of_samples>] 
