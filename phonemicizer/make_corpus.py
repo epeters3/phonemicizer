@@ -18,9 +18,6 @@ phonemes = set()
 
 with open("cmu_pron_dict_dataset.txt", "w") as dataset_f:
     for word, pron in entries:
-        if not word.isalpha():
-            # We don't want words using non-alphabet letters.
-            continue
         for letter in word:
             alphabet.add(letter)
         for phon in pron:
