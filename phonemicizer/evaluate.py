@@ -99,7 +99,7 @@ def main(n=10):
     encoder.load_state_dict(torch.load("encoder_state.pt"))
     encoder.eval()
 
-    decoder = Decoder(HIDDEN_SIZE, phonemes.n_letters, dropout_p=0.1).to(device)
+    decoder = Decoder(HIDDEN_SIZE, phonemes.n_letters, dropout_p=0.0).to(device)
     decoder.load_state_dict(torch.load("decoder_state.pt"))
     decoder.eval()
 
