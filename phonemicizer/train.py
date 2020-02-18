@@ -126,22 +126,30 @@ def train_iters(
     *,
     max_length: int,
     teacher_forcing_ratio: float,
-    print_every: int,
+    epoch_length: int,
     plot_every: int,
     learning_rate: float,
     weight_decay: float,
+    lr_patience: int,
 ):
     start = time.time()
     plot_losses = []
-    print_loss_total = 0  # Reset every print_every
+    print_loss_total = 0  # Reset every epoch_length
     plot_loss_total = 0  # Reset every plot_every
 
     encoder_optimizer = optim.Adam(
         encoder.parameters(), lr=learning_rate, weight_decay=weight_decay
     )
+    encoder_scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+        encoder_optimizer, patience=lr_patience
+    )
     decoder_optimizer = optim.Adam(
         decoder.parameters(), lr=learning_rate, weight_decay=weight_decay
     )
+    decoder_scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+        decoder_optimizer, patience=lr_patience
+    )
+
     training_pairs = [pair_to_tensors(random.choice(pairs)) for i in range(n_iters)]
     criterion = nn.NLLLoss()
 
@@ -164,8 +172,8 @@ def train_iters(
         print_loss_total += loss
         plot_loss_total += loss
 
-        if iter % print_every == 0:
-            print_loss_avg = print_loss_total / print_every
+        if iter % epoch_length == 0:
+            print_loss_avg = print_loss_total / epoch_length
             print_loss_total = 0
             print(
                 "%s (%d %d%%) %.4f"
@@ -176,6 +184,8 @@ def train_iters(
                     print_loss_avg,
                 )
             )
+            encoder_scheduler.step(print_loss_avg)
+            decoder_scheduler.step(print_loss_avg)
 
         if iter % plot_every == 0:
             plot_loss_avg = plot_loss_total / plot_every
@@ -187,13 +197,14 @@ def train_iters(
 
 def main(
     n_iters,
-    print_every: int = 1000,
+    epoch_length: int = 1000,
     plot_every: int = 100,
     learning_rate: float = 0.0001,
     # L2 weight decay
     weight_decay: float = 0.0,
     teacher_forcing_ratio: float = 0.5,
     dropout_p: float = 0.1,
+    lr_patience: int = 5,
 ):
     print(f"Training for {n_iters} iterations...")
     encoder = Encoder(alphabet.n_letters, HIDDEN_SIZE).to(device)
@@ -202,12 +213,13 @@ def main(
         encoder,
         decoder,
         n_iters,
-        print_every=print_every,
+        epoch_length=epoch_length,
         plot_every=plot_every,
         learning_rate=learning_rate,
         max_length=MAX_LENGTH,
         teacher_forcing_ratio=teacher_forcing_ratio,
         weight_decay=weight_decay,
+        lr_patience=lr_patience,
     )
 
     print("Training finished. Saving models...")
