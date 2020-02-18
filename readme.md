@@ -46,7 +46,7 @@ python3 -m phonemicizer.evaluate [--n <number_of_samples>]
 
 ## Training
 
-The repo includes state dictionaries for the model so it can go straight into evaluate mode, but to train the model from scratch:
+The repo includes state dictionaries for the model so it can go straight into predict and evaluate mode, but to train the model from scratch:
 
 ```shell
 python3 -m phonemicizer.train \
