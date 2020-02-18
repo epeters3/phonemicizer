@@ -30,10 +30,13 @@ The repo includes state dictionaries for the model so it can go straight into ev
 ```shell
 python3 -m phonemicizer.train \
     --n_iters <number_of_training_iterations> \
-    [--print_every 1000] \
-    [--print_every 100] \
-    [--learning_rate 0.01]
+    [--epoch_length 1000] \
+    [--plot_every 100] \
+    [--learning_rate 0.0001] \
+    [--weight_decay 0.0] \
+    [--teacher_forcing_ratio 0.5] \
+    [--dropout_p 0.1] \
+    [--lr_patience 5] \
 ```
-`--print_every`, `--print_every`, and `--learning_rate` are all optional arguments.
 
-With the current parameters (single GRU layer in the encoder and an attention and GRU layer in the decoder, with a hidden size of 256 for all layers), the model begins to become unstable during training at around 30,000 training iterations, at which point the loss goes back up.
+With the current parameters (single GRU layer in the encoder and an attention and GRU layer in the decoder, with a hidden size of 256 for all layers), the model begins to become unstable during training at around 80,000 training iterations, at which point the loss goes back up. Current model accuracy is about 89.6%.
