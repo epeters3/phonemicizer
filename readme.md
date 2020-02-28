@@ -20,8 +20,10 @@ To use the current best model saved in the repo to predict phonetic representati
 
 ### Using the CLI
 
+The module can accept text via stdin, phonemicize it, then output to stdout, e.g.:
+
 ```shell
-$ python3 -m phonemicizer.predict -i "Interesting."
+$ echo "Interesting." | python3 -m phonemicizer
 N T ER AH S T IH NG
 ```
 

@@ -1,4 +1,5 @@
 import re
+import sys
 
 import torch
 from nltk.tokenize import TweetTokenizer
@@ -108,12 +109,3 @@ class TrainedPhonemicizer:
                 decoder_input = topi.squeeze().detach()
 
             return decoded_words, decoder_attentions[: di + 1]
-
-
-def main(i: str):
-    model = TrainedPhonemicizer()
-    print(model.predict(i))
-
-
-if __name__ == "__main__":
-    fire.Fire(main)
