@@ -56,6 +56,7 @@ class TrainedPhonemicizer:
         output_words = []
         for word in input_words:
             indices = alphabet.word_to_indices(" ".join(word))
+            indices = [SOS_token] + indices + [EOS_token]
             output_chars, attentions = self.evaluate(indices)
             output_chars = [
                 c for c in output_chars if c not in self.blacklisted_output_characters
