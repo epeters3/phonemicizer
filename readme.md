@@ -64,4 +64,4 @@ python3 -m phonemicizer.train \
 
 ## Model Description
 
-The model uses a single GRU layer in the encoder and an attention and GRU layer in the decoder, with a hidden size of 256 for all layers. Accuracy for the trained model weights currently in the repo is about 90.5%. The current model was trained for 120,000 iterations. 
+The model uses a single GRU layer in the encoder and an attention and GRU layer in the decoder, with a hidden size of 256 for all layers. Accuracy for the trained model weights currently in the repo is about 87% on the hold-out test set. The current model was trained for 120,000 iterations. 
